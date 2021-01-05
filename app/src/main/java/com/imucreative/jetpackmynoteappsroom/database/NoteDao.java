@@ -23,7 +23,10 @@ public interface NoteDao {
     @Delete()
     void delete(Note note);
 
-    @Query("SELECT * from note ORDER BY id ASC")
-    LiveData<List<Note>> getAllNotes();
+    @Query("SELECT * FROM note ORDER BY id ASC")
+    DataSource.Factory<Integer, Note> getAllNotes();
+    //LiveData<List<Note>> getAllNotes();
 
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void insertAll(List<Note> list);
 }

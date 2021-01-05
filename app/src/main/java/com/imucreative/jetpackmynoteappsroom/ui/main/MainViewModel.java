@@ -4,6 +4,8 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.paging.LivePagedListBuilder;
+import androidx.paging.PagedList;
 
 import com.imucreative.jetpackmynoteappsroom.database.Note;
 import com.imucreative.jetpackmynoteappsroom.repository.NoteRepository;
@@ -18,7 +20,8 @@ public class MainViewModel extends ViewModel {
         mNoteRepository = new NoteRepository(application);
     }
 
-    LiveData<List<Note>> getAllNotes() {
-        return mNoteRepository.getAllNotes();
+    LiveData<PagedList<Note>> getAllNotes() {
+        //return mNoteRepository.getAllNotes();
+        return new LivePagedListBuilder<>(mNoteRepository.getAllNotes(), 20).build();
     }
 }

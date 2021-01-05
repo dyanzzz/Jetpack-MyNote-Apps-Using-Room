@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
@@ -24,7 +25,8 @@ import static com.imucreative.jetpackmynoteappsroom.ui.insert.NoteAddUpdateActiv
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-    private NoteAdapter adapter;
+    private NotePagedListAdapter adapter;
+    //private NoteAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
         MainViewModel mainViewModel = obtainViewModel(MainActivity.this);
         mainViewModel.getAllNotes().observe(this, noteObserver);
 
-        adapter = new NoteAdapter(MainActivity.this);
+        //adapter = new NoteAdapter(MainActivity.this);
+        adapter = new NotePagedListAdapter(MainActivity.this);
 
         binding.rvNotes.setLayoutManager(new LinearLayoutManager(this));
         binding.rvNotes.setHasFixedSize(true);
@@ -74,11 +77,12 @@ public class MainActivity extends AppCompatActivity {
         return new ViewModelProvider(activity, factory).get(MainViewModel.class);
     }
 
-    private final Observer<List<Note>> noteObserver = new Observer<List<Note>>() {
+    private final Observer<PagedList<Note>> noteObserver = new Observer<PagedList<Note>>() {
         @Override
-        public void onChanged(@Nullable List<Note> noteList) {
+        public void onChanged(@Nullable PagedList<Note> noteList) {
             if (noteList != null) {
-                adapter.setListNotes(noteList);
+                //adapter.setListNotes(noteList);
+                adapter.submitList(noteList);
             }
         }
     };

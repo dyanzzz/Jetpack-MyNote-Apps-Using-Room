@@ -3,6 +3,7 @@ package com.imucreative.jetpackmynoteappsroom.repository;
 import android.app.Application;
 
 import androidx.lifecycle.LiveData;
+import androidx.paging.DataSource;
 
 import com.imucreative.jetpackmynoteappsroom.database.Note;
 import com.imucreative.jetpackmynoteappsroom.database.NoteDao;
@@ -23,7 +24,8 @@ public class NoteRepository {
         mNotesDao = db.noteDao();
     }
 
-    public LiveData<List<Note>> getAllNotes() {
+    //public LiveData<List<Note>> getAllNotes() {
+    public DataSource.Factory<Integer, Note> getAllNotes() {
         return mNotesDao.getAllNotes();
     }
 
