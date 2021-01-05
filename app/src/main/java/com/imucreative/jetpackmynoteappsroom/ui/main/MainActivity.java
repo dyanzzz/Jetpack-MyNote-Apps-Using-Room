@@ -10,11 +10,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.imucreative.jetpackmynoteappsroom.R;
 import com.imucreative.jetpackmynoteappsroom.database.Note;
 import com.imucreative.jetpackmynoteappsroom.databinding.ActivityMainBinding;
+import com.imucreative.jetpackmynoteappsroom.helper.SortUtils;
 import com.imucreative.jetpackmynoteappsroom.ui.insert.NoteAddUpdateActivity;
 import com.imucreative.jetpackmynoteappsroom.viewmodel.ViewModelFactory;
 
@@ -37,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         MainViewModel mainViewModel = obtainViewModel(MainActivity.this);
-        mainViewModel.getAllNotes().observe(this, noteObserver);
+        mainViewModel.getAllNotes(SortUtils.NEWEST).observe(this, noteObserver);
 
         //adapter = new NoteAdapter(MainActivity.this);
         adapter = new NotePagedListAdapter(MainActivity.this);
@@ -95,5 +98,30 @@ public class MainActivity extends AppCompatActivity {
 
     private void showSnackbarMessage(String message) {
         Snackbar.make(binding.getRoot(), message, Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        String sort = "";
+        switch (item.getItemId()) {
+            case R.id.action_newest:
+                sort = SortUtils.NEWEST;
+                break;
+            case R.id.action_oldest:
+                sort = SortUtils.OLDEST;
+                break;
+            case R.id.action_random:
+                sort = SortUtils.RANDOM;
+                break;
+        }
+        obtainViewModel(MainActivity.this).getAllNotes(sort).observe(this, noteObserver);
+        item.setChecked(true);
+        return super.onOptionsItemSelected(item);
     }
 }

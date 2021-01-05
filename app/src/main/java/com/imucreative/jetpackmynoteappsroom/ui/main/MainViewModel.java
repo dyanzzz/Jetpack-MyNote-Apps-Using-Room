@@ -20,8 +20,8 @@ public class MainViewModel extends ViewModel {
         mNoteRepository = new NoteRepository(application);
     }
 
-    LiveData<PagedList<Note>> getAllNotes() {
+    LiveData<PagedList<Note>> getAllNotes(String sort) {
         //return mNoteRepository.getAllNotes();
-        return new LivePagedListBuilder<>(mNoteRepository.getAllNotes(), 20).build();
+        return new LivePagedListBuilder<>(mNoteRepository.getAllNotes(sort), 20).build();
     }
 }

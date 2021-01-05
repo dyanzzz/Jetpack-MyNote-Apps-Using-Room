@@ -7,7 +7,9 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.RawQuery;
 import androidx.room.Update;
+import androidx.sqlite.db.SupportSQLiteQuery;
 
 import java.util.List;
 
@@ -23,8 +25,9 @@ public interface NoteDao {
     @Delete()
     void delete(Note note);
 
-    @Query("SELECT * FROM note ORDER BY id ASC")
-    DataSource.Factory<Integer, Note> getAllNotes();
+    //@Query("SELECT * FROM note ORDER BY id ASC")
+    @RawQuery(observedEntities = Note.class)
+    DataSource.Factory<Integer, Note> getAllNotes(SupportSQLiteQuery query);
     //LiveData<List<Note>> getAllNotes();
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
